@@ -14,7 +14,8 @@ class ColegioController extends Controller
      */
     public function index()
     {
-        //
+        $colegios = Colegio::all();
+        return view("Colegios.listar",['colegioclave'=>$colegios]);
     }
 
     /**
@@ -24,7 +25,7 @@ class ColegioController extends Controller
      */
     public function create()
     {
-        //
+        return view("Colegios.registrar",['texto' => 'hola']);
     }
 
     /**
@@ -35,7 +36,19 @@ class ColegioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $colegio = new Colegio;
+
+        $colegio->nombre = $request->nombre;
+        $colegio->direccion = $request->direccion;
+        $colegio->telefono = $request->telefono;
+
+        $colegio->id_convenio = $request->id_convenio;
+        $colegio->id_secretaria = $request->id_secretaria;
+
+        $colegio->save();
+        return redirect()->route('vitacolegioregister', ['alertMensaje'=> true] );
+
+
     }
 
     /**
@@ -44,9 +57,11 @@ class ColegioController extends Controller
      * @param  \App\Models\Colegio  $colegio
      * @return \Illuminate\Http\Response
      */
-    public function show(Colegio $colegio)
+    public function show(Colegio $id)
     {
-        //
+        $val = Colegio::find($id);
+
+        return view('Colegios.detalle', compact('val'));
     }
 
     /**
